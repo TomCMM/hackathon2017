@@ -31,7 +31,7 @@ toolbox.register("expr", gp.genFull, pset=pset, min_=1, max_=2)
 toolbox.register("individual", tools.initIterate, creator.Individual,
                  toolbox.expr)
 
-nb_inds = 12
+nb_inds = 16
 nb_args = 4
 pop = [ ]
 
