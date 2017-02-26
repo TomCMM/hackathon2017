@@ -70,6 +70,7 @@ def makenewinds(inds, select, nb_inds, nb_args):
             for father, mother in zip(args[:-1], args[1:]):
 	        args.append(mother)
 	        args.append(father)
+            
 	        son1, son2 = tools.cxOnePoint(father, mother)
             #print gp.compile(father, pset)
             #print gp.compile(mother, pset)
