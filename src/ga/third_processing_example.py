@@ -19,7 +19,7 @@ pset = gp.PrimitiveSet("main", 0)
 pset.addPrimitive(max, 2)
 pset.addPrimitive(operator.add, 2)
 pset.addPrimitive(operator.mul, 2)
-pset.addTerminal(1)
+pset.addTerminal(10)
 #pset.renameArguments(ARG0="x")
 #pset.renameArguments(ARG1="y")
 
