@@ -12,6 +12,8 @@ from deap import base
 from deap import creator
 from deap import tools
 from deap import gp
+import os
+import time
 
 #rectangle(arg1,arg2,arg3,arg4)
 
@@ -41,7 +43,32 @@ for nb_ind in range(nb_inds):
 #print func
      pop.append([gp.compile(toolbox.individual(),pset) for x in range(nb_args)])
 print pop
-pickle.dump( pop, open( "pop.p", "wb" ) )
+# pickle.dump( pop, open( "pop.p", "wb" ) )
+
+
+
+
+FILENAME_POP = "pop.p"
+FILENAME_SELECT = "select.p"
+
+# Generation loop
+while True:
+    # # Evaluate fitness function
+    # Saves for processing part
+    print("Saving new population...")
+    pickle.dump(pop, open(FILENAME_POP, "wb"))
+
+    # Waits for processing:
+    while True:
+        if os.path.isfile(FILENAME_SELECT):
+            with open(FILENAME_SELECT, "r") as f:
+                select = eval(f.read())
+                print(select)
+            os.unlink(FILENAME_SELECT)
+            break
+        else:
+            time.sleep(0.01)
+
 
 
 #print "AHAHAHAAHAHA"*10

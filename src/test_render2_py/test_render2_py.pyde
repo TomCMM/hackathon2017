@@ -50,7 +50,7 @@ def random_individual(num_steps):
         ret.append(random.randint(1, 20))  # step
     return ret
         
-         
+        
 
 def get_num_cols_rows(size_):
     """Calculates number of rows and columns based on population size

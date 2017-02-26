@@ -1,6 +1,7 @@
 import ga
 import os
 import time
+import pickle
 
 FILENAME_IN = "server-in.txt"
 FILENAME_OUT = "server-out.txt"
@@ -30,7 +31,8 @@ state = ST_EXP_FIRST
 def read_file(filename):
     with open(filename, "r") as f:
         return f.readlines()
-        
+    os.unlink(filename)
+
 
 while True:
     time.sleep(.01)
@@ -40,4 +42,8 @@ while True:
         if not (state == token):
             raise RuntimeError("Wrong token: expecting '{}', received '{}'".format(state, token))
         elif state == ST_EXP_FITNESS:
-            process_fitnesses([eval(s for s in lines[1:])])
+            pop = ga.process_fitnesses([eval(s for s in lines[1:])])
+            pickle.dump(pop, open(FILENAME_OUT, "wb"))
+        elif state == ST_EXP_FIRST:
+            pop = ga.get_first_population()
+            pickle.dump(pop, open(FILENAME_OUT, "wb"))
