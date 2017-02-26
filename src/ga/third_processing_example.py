@@ -36,8 +36,11 @@ nb_args = 4
 pop = [ ]
 
 for nb_ind in range(nb_inds):
-     pop.append([str(toolbox.individual()) for x in range(nb_args)])
-
+#     print dir(ind)
+#func = gp.compile(ind,pset)
+#print func
+     pop.append([gp.compile(toolbox.individual(),pset) for x in range(nb_args)])
+print pop
 pickle.dump( pop, open( "pop.p", "wb" ) )
 
 
