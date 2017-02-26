@@ -4,7 +4,7 @@ import operator
 import math
 import random
 import pickle
-import copy
+
 import numpy
 
 from deap import algorithms
@@ -18,7 +18,7 @@ import time
 #rectangle(arg1,arg2,arg3,arg4)
 
 pset = gp.PrimitiveSet("main", 0)
-#pset.addPrimitive(max, 2)
+pset.addPrimitive(max, 2)
 pset.addPrimitive(operator.add, 2)
 pset.addPrimitive(operator.mul, 2)
 pset.addTerminal(1)
@@ -44,7 +44,7 @@ for nb_ind in range(nb_inds):
 #print func
      ind = [toolbox.individual() for x in range(nb_args)]
      args.append([gp.compile(x, pset) for x in ind])
-     inds.append([x for x in ind])
+     inds.append([ind for x in ind])
 
 pickle.dump( args, open( "args.p", "wb" ) )
 #pickle.dump( inds, open( "inds.p", "wb" ) )
@@ -61,37 +61,28 @@ def makenewinds(inds, select, nb_inds, nb_args):
         select: list of boolean selector
     """
     selectioned = [ind for ind,sel in zip(inds,select) if sel == 1]
-    
-    newinds = []
-    
-    for nb_arg in range(nb_args):
-        args = [sel[nb_arg] for sel in selectioned]
-        while len(args) < nb_inds:
-            for father, mother in zip(args[:-1], args[1:]):
-                print len(father)
-	        args.append(mother)
-	        args.append(father)
-                son1 = copy.deepcopy(father)
-                son2 = copy.deepcopy(mother)
-	        tools.cxOnePoint(son1, son2)
-                print "Father"
-                print father
-                print gp.compile(father, pset)
-                print "Mother"
-                print mother
-                print gp.compile(mother, pset)
-                print son1
-                print gp.compile(son1, pset)
-                print son2
-                print gp.compile(son2, pset)
-	        args.append(son1)
-	        args.append(son2)
-        args = args[:nb_inds] # select only nb_ind individus
-        newinds.append(args)
-    return newinds
-    #print len(selectioned)
 
-# Generation loop
+    ind1 = ind[0][0]
+    print "first individual"
+    print ind1
+
+    ind2 = ind[0][1]
+    print "second individual"
+    print ind2
+
+    filho = tools.cxOnePoint(ind1,ind2)
+    print "FILHO"
+    for f in filho:
+        print f   
+
+    arguments = []
+    selectioned = zip(*selectioned)
+    print len(selectioned)
+    for selection in selectioned:
+        print len(selection)
+        for i in range(len(selection)):
+            print selection[i][0]
+
 while True:
     # # Evaluate fitness function
     # Saves for processing part
@@ -110,13 +101,9 @@ while True:
 
     args = [ ]
     inds = makenewinds(inds, select, nb_inds, nb_args)
-    #print len(inds)
-    #print len(zip(*inds))
-    inds = zip(*inds)
-    #print len(inds)
+    inds = zip(*inds) # reshape the list
+
     for ind in inds:
-        #print len(ind)
-        #print gp.compile(ind[0][0], pset)
         args.append([gp.compile(x[0], pset) for x in ind])
     print args
     #args.append([gp.compile(ind, pset) for ind in inds])

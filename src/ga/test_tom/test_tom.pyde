@@ -37,8 +37,8 @@ SCALE_K = 1./250
 NUM_STEPS = 100
 
 
-#os.chdir("/home/j/Documents/projects/garoa/h/hackathon2017/src/ga/test_tom")
-os.chdir("/root/hack/hackathon2017/src/ga/test_tom")
+os.chdir("/home/j/Documents/projects/garoa/h/hackathon2017/src/ga/test_tom")
+#os.chdir("/root/hack/hackathon2017/src/ga/test_tom")
 SPACING = 10  # spacing between figures
 
 current_k = -1

@@ -4,7 +4,7 @@ import operator
 import math
 import random
 import pickle
-
+import copy
 import numpy
 
 from deap import algorithms
@@ -18,7 +18,7 @@ import time
 #rectangle(arg1,arg2,arg3,arg4)
 
 pset = gp.PrimitiveSet("main", 0)
-pset.addPrimitive(max, 2)
+#pset.addPrimitive(max, 2)
 pset.addPrimitive(operator.add, 2)
 pset.addPrimitive(operator.mul, 2)
 pset.addTerminal(1)
@@ -44,7 +44,7 @@ for nb_ind in range(nb_inds):
 #print func
      ind = [toolbox.individual() for x in range(nb_args)]
      args.append([gp.compile(x, pset) for x in ind])
-     inds.append([ind for x in ind])
+     inds.append([x for x in ind])
 
 pickle.dump( args, open( "args.p", "wb" ) )
 #pickle.dump( inds, open( "inds.p", "wb" ) )
@@ -68,16 +68,25 @@ def makenewinds(inds, select, nb_inds, nb_args):
         args = [sel[nb_arg] for sel in selectioned]
         while len(args) < nb_inds:
             for father, mother in zip(args[:-1], args[1:]):
-	        args.append(mother)
-	        args.append(father)
-            
-	        son1, son2 = tools.cxOnePoint(father, mother)
-            #print gp.compile(father, pset)
-            #print gp.compile(mother, pset)
-            #print gp.compile(son1, pset)
-            #print gp.compile(son2, pset)
-	        args.append(son1)
-	        args.append(son2)
+                print len(father)
+                args.append(mother)
+                args.append(father)
+                son1 = copy.deepcopy(father)
+                son2 = copy.deepcopy(mother)
+                tools.cxOnePoint(son1, son2)
+                print "Father"
+                print father
+                print gp.compile(father, pset)
+                print "Mother"
+                print mother
+                print gp.compile(mother, pset)
+                print son1
+                print gp.compile(son1, pset)
+                print son2
+                print gp.compile(son2, pset)
+                args.append(son1)
+                args.append(son2)
+
         args = args[:nb_inds] # select only nb_ind individus
         newinds.append(args)
     return newinds
@@ -99,7 +108,8 @@ while True:
             break
         else:
             time.sleep(0.01)
-        print select
+
+    print select
 
     args = [ ]
     inds = makenewinds(inds, select, nb_inds, nb_args)
