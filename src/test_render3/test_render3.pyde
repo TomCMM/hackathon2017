@@ -68,8 +68,8 @@ def get_num_cols_rows(size_):
 
 WIDTH, HEIGHT = 600, 600
 SCALE_K = 1./250
-NUM_STEPS = 100
-POPULATION_SIZE = 25
+NUM_STEPS = 50
+POPULATION_SIZE = 9
 SPACING = 10  # spacing between figures
 nc, nr = get_num_cols_rows(POPULATION_SIZE)
 fig_width = int((WIDTH-SPACING*(nc+1))/nc)

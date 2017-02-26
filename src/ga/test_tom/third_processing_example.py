@@ -68,6 +68,7 @@ while True:
             break
         else:
             time.sleep(0.01)
+        print select
 
 
 

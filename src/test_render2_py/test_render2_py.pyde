@@ -1,6 +1,8 @@
 import math
 import random
+import copy
 
+    
 
 def render_individual(individual, x0, y0, scale_):
     """
@@ -144,3 +146,27 @@ def mouseClicked():
     elif mouseButton == 3:
         selects[k] = 0
         
+        
+def messup(individual, prob, num):
+    ret = copy.deepcopy(individual)
+    N = len(individual)/2
+    for i in range(num):
+        if random.random() <= prob:
+            which = random.randint(0, N-1)
+            
+            if random.random() < .5:
+                ret[(i-1)*2] += (random.random()-.5)*10
+            else:
+                ret[(i-1)] += (random.random()-.5)*20
+    
+    return ret
+
+def bang(ind0, ind1, prob):
+    # prob: probability **for each element** (must be low!!)
+    ret0, ret1 = copy.deepcopy(ind0), copy.deepcopy(ind1)
+    for i in range(len(ind0)):
+        if random.random() < prob:
+            temp = ret0[i]
+            ret0[i] = ret1[i]
+            ret1[i] = temp
+    return ret0, ret1
